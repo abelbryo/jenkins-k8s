@@ -35,7 +35,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "/usr/share/jenkins/ref/connect-jenkins-bootstrap/scripts/wait-for-jenkins-and-run-job.sh meta-job"]
+              command: ["/bin/sh", "-c", "/usr/share/jenkins/ref/jenkins-k8s/scripts/wait-for-jenkins-and-run-job.sh meta-job"]
       initContainers:
       - name: clone-repo
         image: jenkins/jenkins:lts
@@ -48,7 +48,8 @@ spec:
             printf "host github.com\n HostName github.com\n IdentityFile ~/.ssh/id_rsa\n User jenkins" > ~/.ssh/config;
             ssh-keyscan github.com >> ~/.ssh/known_hosts;
             cd /usr/share/jenkins/ref;
-            git clone git@github.com:ClearPointNZ/connect-jenkins-bootstrap.git
+            # git clone git@github.com:ClearPointNZ/connect-jenkins-bootstrap.git
+            git clone git@github.com:abelbryo/jenkins-k8s.git
 
         volumeMounts:
         - mountPath: /usr/share/jenkins/ref
@@ -63,7 +64,7 @@ spec:
         command:
           - /bin/sh
           - -c
-          - install-plugins.sh < /usr/share/jenkins/ref/connect-jenkins-bootstrap/plugins
+          - install-plugins.sh < /usr/share/jenkins/ref/jenkins-k8s/plugins
         volumeMounts:
         - mountPath: /usr/share/jenkins/ref
           name: ref-volume
@@ -83,9 +84,9 @@ spec:
           - /bin/sh
           - -c
           - mkdir /usr/share/jenkins/ref/init.groovy.d;
-            cp /usr/share/jenkins/ref/connect-jenkins-bootstrap/overrides/* /usr/share/jenkins/ref/;
-            cp /usr/share/jenkins/ref/connect-jenkins-bootstrap/scripts/security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy;
-            /usr/share/jenkins/ref/connect-jenkins-bootstrap/scripts/hack-jenkins-env.sh;
+            cp /usr/share/jenkins/ref/jenkins-k8s/overrides/* /usr/share/jenkins/ref/;
+            cp /usr/share/jenkins/ref/jenkins-k8s/scripts/security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy;
+            /usr/share/jenkins/ref/jenkins-k8s/scripts/hack-jenkins-env.sh;
         volumeMounts:
         - mountPath: /usr/share/jenkins/ref
           name: ref-volume
@@ -94,7 +95,7 @@ spec:
         command:
           - /bin/sh
           - -c
-          - cp -r /usr/share/jenkins/ref/connect-jenkins-bootstrap/jobs /usr/share/jenkins/ref/
+          - cp -r /usr/share/jenkins/ref/jenkins-k8s/jobs /usr/share/jenkins/ref/
         volumeMounts:
         - mountPath: /usr/share/jenkins/ref
           name: ref-volume
