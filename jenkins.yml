@@ -48,7 +48,6 @@ spec:
             printf "host github.com\n HostName github.com\n IdentityFile ~/.ssh/id_rsa\n User jenkins" > ~/.ssh/config;
             ssh-keyscan github.com >> ~/.ssh/known_hosts;
             cd /usr/share/jenkins/ref;
-            # git clone git@github.com:ClearPointNZ/connect-jenkins-bootstrap.git
             git clone git@github.com:abelbryo/jenkins-k8s.git
 
         volumeMounts:
