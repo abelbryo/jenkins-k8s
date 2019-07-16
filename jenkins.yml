@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: master
-        image: jenkins/jenkins:lts
+        image: aterefe/jenkins-sbt-docker:latest
         ports:
         - containerPort: 8080
         - containerPort: 50000
@@ -38,7 +38,7 @@ spec:
               command: ["/bin/sh", "-c", "/usr/share/jenkins/ref/jenkins-k8s/scripts/wait-for-jenkins-and-run-job.sh meta-job"]
       initContainers:
       - name: clone-repo
-        image: jenkins/jenkins:lts
+        image: aterefe/jenkins-sbt-docker:latest
         command:
           - /bin/sh
           - -c
@@ -59,7 +59,7 @@ spec:
         - mountPath: /var/jenkins_home/.ssh
           name: ssh-volume
       - name: install-plugins
-        image: jenkins/jenkins:lts
+        image: aterefe/jenkins-sbt-docker:latest
         command:
           - /bin/sh
           - -c
@@ -68,7 +68,7 @@ spec:
         - mountPath: /usr/share/jenkins/ref
           name: ref-volume
       - name: override-config
-        image: jenkins/jenkins:lts
+        image: aterefe/jenkins-sbt-docker:latest
         env:
         - name: MY_POD_IP
           valueFrom:
@@ -90,7 +90,7 @@ spec:
         - mountPath: /usr/share/jenkins/ref
           name: ref-volume
       - name: copy-jobs
-        image: jenkins/jenkins:lts
+        image: aterefe/jenkins-sbt-docker:latest
         command:
           - /bin/sh
           - -c
