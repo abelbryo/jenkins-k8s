@@ -32,6 +32,8 @@ spec:
           name: ref-volume
         - mountPath: /var/jenkins_home/.ssh
           name: ssh-volume
+        - name: docker-socket-volume
+          mountPath: /var/run/docker.sock
         lifecycle:
           postStart:
             exec:
@@ -103,6 +105,11 @@ spec:
         emptyDir: {}
       - name: ssh-volume
         emptyDir: {}
+      - name: docker-socket-volume
+        hostPath:
+          path: /var/run/docker.sock
+          type: File
       - name: secret-volume
         secret:
           secretName: ssh-key-secret
+
