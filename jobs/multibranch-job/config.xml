@@ -35,7 +35,7 @@
         <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.10.1">
           <id>0b65d89a-e375-4b1f-ac26-889c1ee25cdf</id>
           <remote>git@github.com:Onomatics/trademarknow.git</remote>
-          <credentialsId></credentialsId>
+          <credentialsId>jenkins-clearpoint</credentialsId>
           <traits>
             <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
             <jenkins.plugins.git.traits.LocalBranchTrait>
