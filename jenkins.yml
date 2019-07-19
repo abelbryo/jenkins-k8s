@@ -32,6 +32,8 @@ spec:
           name: ref-volume
         - mountPath: /var/jenkins_home/.ssh
           name: ssh-volume
+        - mountPath: /var/jenkins_home/.sbt
+          name: sbt-volume
         - name: docker-socket-volume
           mountPath: /var/run/docker.sock
         lifecycle:
@@ -46,7 +48,9 @@ spec:
           - -c
           - cp /etc/secret-volume/ssh-privatekey ~/.ssh/id_rsa;
             cp /etc/secret-volume/ssh-publickey ~/.ssh/id_rsa.pub;
+            cp /etc/secret-volume/tmnow.credentials ~/.sbt/tmnow.credentials;
             chmod 400 ~/.ssh/*;
+            chmod 400 ~/.sbt/*;
             printf "host github.com\n HostName github.com\n IdentityFile ~/.ssh/id_rsa\n User jenkins" > ~/.ssh/config;
             ssh-keyscan github.com >> ~/.ssh/known_hosts;
             cd /usr/share/jenkins/ref;
@@ -60,6 +64,8 @@ spec:
           readOnly: true
         - mountPath: /var/jenkins_home/.ssh
           name: ssh-volume
+        - mountPath: /var/jenkins_home/.sbt
+          name: sbt-volume
       - name: install-plugins
         image: aterefe/jenkins-sbt-docker:latest
         command:
@@ -105,11 +111,13 @@ spec:
         emptyDir: {}
       - name: ssh-volume
         emptyDir: {}
+      - name: sbt-volume
+        emptyDir: {}
       - name: docker-socket-volume
         hostPath:
           path: /var/run/docker.sock
           type: File
       - name: secret-volume
         secret:
-          secretName: ssh-key-secret
+          secretName: tmnow-ssh-secret
 

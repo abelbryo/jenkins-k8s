@@ -34,7 +34,7 @@
       <jenkins.branch.BranchSource>
         <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.10.1">
           <id>0b65d89a-e375-4b1f-ac26-889c1ee25cdf</id>
-          <remote>https://github.com/abelbryo/hello-http4s-jenkins</remote>
+          <remote>https://github.com/Onomatics/trademarknow</remote>
           <credentialsId></credentialsId>
           <traits>
             <jenkins.plugins.git.traits.BranchDiscoveryTrait/>

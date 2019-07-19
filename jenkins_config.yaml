@@ -1,14 +1,14 @@
 Master:
   InstallPlugins:
-    - workflow-job:2.15
-    - workflow-aggregator:latest
-    - branch-api:2.0.14
-    - git:latest
-    - kubernetes:latest
+    - branch-api:2.5.3
     - credentials:latest
     - credentials-binding:latest
+    - git:latest
     - job-dsl:latest
+    - kubernetes:latest
     - kubernetes-pipeline-steps:latest
+    - workflow-job:2.15
+    - workflow-aggregator:latest
 rbac:
   install: true
   serviceAccountName: helm-jenkins
