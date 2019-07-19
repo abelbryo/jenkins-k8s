@@ -28,12 +28,12 @@ spec:
         - name: JAVA_OPTS
           value: "-Djenkins.install.runSetupWizard=false -Dpermissive-script-security.enabled=NO_SECURITY"
         volumeMounts:
-        - mountPath: /usr/share/jenkins/ref
-          name: ref-volume
-        - mountPath: /var/jenkins_home/.ssh
-          name: ssh-volume
-        - mountPath: /var/jenkins_home/.sbt
-          name: sbt-volume
+        - name: ref-volume
+          mountPath: /usr/share/jenkins/ref
+        - name: ssh-volume
+          mountPath: /var/jenkins_home/.ssh
+        - name: sbt-volume
+          mountPath: /var/jenkins_home/.sbt
         - name: docker-socket-volume
           mountPath: /var/run/docker.sock
         lifecycle:
@@ -48,7 +48,7 @@ spec:
           - -c
           - cp /etc/secret-volume/ssh-privatekey ~/.ssh/id_rsa;
             cp /etc/secret-volume/ssh-publickey ~/.ssh/id_rsa.pub;
-            cp /etc/secret-volume/tmnow.credentials ~/.sbt/tmnow.credentials;
+            cp /etc/sbt-secret-volume/tmnow.credentials ~/.sbt/tmnow.credentials;
             chmod 400 ~/.ssh/*;
             chmod 400 ~/.sbt/*;
             printf "host github.com\n HostName github.com\n IdentityFile ~/.ssh/id_rsa\n User jenkins" > ~/.ssh/config;
@@ -57,15 +57,18 @@ spec:
             git clone git@github.com:abelbryo/jenkins-k8s.git
 
         volumeMounts:
-        - mountPath: /usr/share/jenkins/ref
-          name: ref-volume
-        - mountPath: /etc/secret-volume
-          name: secret-volume
+        - name: ref-volume
+          mountPath: /usr/share/jenkins/ref
+        - name: secret-volume
+          mountPath: /etc/secret-volume
           readOnly: true
-        - mountPath: /var/jenkins_home/.ssh
-          name: ssh-volume
-        - mountPath: /var/jenkins_home/.sbt
-          name: sbt-volume
+        - name: sbt-secret-volume
+          mountPath: /etc/sbt-secret-volume
+          readOnly: true
+        - name: ssh-volume
+          mountPath: /var/jenkins_home/.ssh
+        - name: sbt-volume
+          mountPath: /var/jenkins_home/.sbt
       - name: install-plugins
         image: aterefe/jenkins-sbt-docker:latest
         command:
@@ -73,8 +76,8 @@ spec:
           - -c
           - install-plugins.sh < /usr/share/jenkins/ref/jenkins-k8s/plugins
         volumeMounts:
-        - mountPath: /usr/share/jenkins/ref
-          name: ref-volume
+        - name: ref-volume
+          mountPath: /usr/share/jenkins/ref
       - name: override-config
         image: aterefe/jenkins-sbt-docker:latest
         env:
@@ -95,8 +98,8 @@ spec:
             cp /usr/share/jenkins/ref/jenkins-k8s/scripts/security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy;
             /usr/share/jenkins/ref/jenkins-k8s/scripts/hack-jenkins-env.sh;
         volumeMounts:
-        - mountPath: /usr/share/jenkins/ref
-          name: ref-volume
+        - name: ref-volume
+          mountPath: /usr/share/jenkins/ref
       - name: copy-jobs
         image: aterefe/jenkins-sbt-docker:latest
         command:
@@ -104,8 +107,8 @@ spec:
           - -c
           - cp -r /usr/share/jenkins/ref/jenkins-k8s/jobs /usr/share/jenkins/ref/
         volumeMounts:
-        - mountPath: /usr/share/jenkins/ref
-          name: ref-volume
+        - name: ref-volume
+          mountPath: /usr/share/jenkins/ref
       volumes:
       - name: ref-volume
         emptyDir: {}
@@ -120,4 +123,8 @@ spec:
       - name: secret-volume
         secret:
           secretName: tmnow-ssh-secret
+      - name: sbt-secret-volume
+        secret:
+          secretName: sbt-tmnow-jfrog-credentials
+
 
