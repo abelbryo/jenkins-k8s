@@ -1,7 +1,9 @@
 branch-api:2.5.3
+command-launcher:1.3
 credentials:latest
 credentials-binding:latest
 git:latest
+jdk-tool:1.2
 job-dsl:latest
 kubernetes:latest
 kubernetes-pipeline-steps:latest
