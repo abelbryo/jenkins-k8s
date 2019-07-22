@@ -13,6 +13,7 @@ spec:
       containers:
       - name: master
         image: aterefe/jenkins-sbt-docker:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         - containerPort: 50000
@@ -34,6 +35,8 @@ spec:
           mountPath: /var/jenkins_home/.ssh
         - name: sbt-volume
           mountPath: /var/jenkins_home/.sbt
+        - name: docker-config-volume
+          mountPath: /var/jenkins_home/.docker
         - name: docker-socket-volume
           mountPath: /var/run/docker.sock
         lifecycle:
@@ -43,6 +46,7 @@ spec:
       initContainers:
       - name: clone-repo
         image: aterefe/jenkins-sbt-docker:latest
+        imagePullPolicy: IfNotPresent
         command:
           - /bin/sh
           - -c
@@ -70,7 +74,6 @@ spec:
         - name: docker-secret-volume
           mountPath: /etc/docker-secret-volume
           readOnly: true
-
         - name: ssh-volume
           mountPath: /var/jenkins_home/.ssh
         - name: sbt-volume
@@ -79,6 +82,7 @@ spec:
           mountPath: /var/jenkins_home/.docker
       - name: install-plugins
         image: aterefe/jenkins-sbt-docker:latest
+        imagePullPolicy: IfNotPresent
         command:
           - /bin/sh
           - -c
@@ -88,6 +92,7 @@ spec:
           mountPath: /usr/share/jenkins/ref
       - name: override-config
         image: aterefe/jenkins-sbt-docker:latest
+        imagePullPolicy: IfNotPresent
         env:
         - name: MY_POD_IP
           valueFrom:
@@ -110,6 +115,7 @@ spec:
           mountPath: /usr/share/jenkins/ref
       - name: copy-jobs
         image: aterefe/jenkins-sbt-docker:latest
+        imagePullPolicy: IfNotPresent
         command:
           - /bin/sh
           - -c
