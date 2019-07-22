@@ -49,7 +49,7 @@ spec:
           - cp /etc/secret-volume/ssh-privatekey ~/.ssh/id_rsa;
             cp /etc/secret-volume/ssh-publickey ~/.ssh/id_rsa.pub;
             cp /etc/sbt-secret-volume/tmnow.credentials ~/.sbt/tmnow.credentials;
-            cp /etc/docker-secret-volume/config.json ~/.docker/config.json;
+            cp /etc/docker-secret-volume/docker.jfrog.credentials ~/.docker/config.json;
             chmod 400 ~/.ssh/*;
             chmod 400 ~/.sbt/*;
             chmod 400 ~/.docker/*;
@@ -70,6 +70,7 @@ spec:
         - name: docker-secret-volume
           mountPath: /etc/docker-secret-volume
           readOnly: true
+
         - name: ssh-volume
           mountPath: /var/jenkins_home/.ssh
         - name: sbt-volume
