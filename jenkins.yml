@@ -56,7 +56,7 @@ spec:
             cp /etc/docker-secret-volume/docker.jfrog.credentials ~/.docker/config.json;
             chmod 400 ~/.ssh/*;
             chmod 400 ~/.sbt/*;
-            chmod 400 ~/.docker/*;
+            chmod 600 ~/.docker/*;
             printf "host github.com\n HostName github.com\n IdentityFile ~/.ssh/id_rsa\n User jenkins" > ~/.ssh/config;
             ssh-keyscan github.com >> ~/.ssh/known_hosts;
             cd /usr/share/jenkins/ref;
