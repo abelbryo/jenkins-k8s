@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+      - name: registry
+        image: registry:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: registry-volume
+          mountPath: /mnt
+      volumes:
+      - name: registry-volume
+        emptyDir: {}
+
+
